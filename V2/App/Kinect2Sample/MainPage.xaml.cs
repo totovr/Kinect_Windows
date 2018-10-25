@@ -21,15 +21,18 @@ namespace Kinect2Sample
     public enum DisplayFrameType
     {
         Infrared,
-        Color
+        Color, 
+        Depth
     }
 
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
         // Color frames
         private const DisplayFrameType DEFAULT_DISPLAYFRAMETYPE = DisplayFrameType.Color;
+
         private FrameDescription currentFrameDescription;
         private DisplayFrameType currentDisplayFrameType;
+
         // Switch bettwen frames types
         private MultiSourceFrameReader multiSourceFrameReader = null;
 
@@ -79,9 +82,12 @@ namespace Kinect2Sample
         private WriteableBitmap bitmap = null;
 
         //Infrared Frame 
-        private InfraredFrameReader infraredFrameReader = null;
         private ushort[] infraredFrameData = null;
         private byte[] infraredPixels = null;
+
+        // Depth Frame
+        private ushort[] depthFrameData = null;
+        private byte[] depthPixels = null;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public string StatusText
@@ -118,13 +124,14 @@ namespace Kinect2Sample
 
         public MainPage()
         {
-            // one sensor is currently supported
+            // Initialize the Kinect sensor
             this.kinectSensor = KinectSensor.GetDefault();
 
             // To select the frame reader
             SetupCurrentDisplay(DEFAULT_DISPLAYFRAMETYPE);
 
-            this.multiSourceFrameReader = this.kinectSensor.OpenMultiSourceFrameReader(FrameSourceTypes.Infrared | FrameSourceTypes.Color);
+            // Open the source frame readers
+            this.multiSourceFrameReader = this.kinectSensor.OpenMultiSourceFrameReader(FrameSourceTypes.Infrared | FrameSourceTypes.Color | FrameSourceTypes.Depth);
 
             this.multiSourceFrameReader.MultiSourceFrameArrived += this.Reader_MultiSourceFrameArrived;
 
@@ -140,6 +147,48 @@ namespace Kinect2Sample
             this.InitializeComponent();
         }
 
+        // Switch to change between infrared, color and depth image
+        private void SetupCurrentDisplay(DisplayFrameType newDisplayFrameType)
+        {
+            currentDisplayFrameType = newDisplayFrameType;
+            switch (currentDisplayFrameType)
+            {
+                case DisplayFrameType.Infrared:
+                    FrameDescription infraredFrameDescription = this.kinectSensor.InfraredFrameSource.FrameDescription;
+                    this.CurrentFrameDescription = infraredFrameDescription;
+                    // Allocate space to put the pixels being received and converted
+                    this.infraredFrameData = new ushort[infraredFrameDescription.Width * infraredFrameDescription.Height];
+                    this.infraredPixels = new byte[infraredFrameDescription.Width * infraredFrameDescription.Height * BytesPerPixel];
+                    this.bitmap = new WriteableBitmap(infraredFrameDescription.Width, infraredFrameDescription.Height);
+                    break;
+
+                case DisplayFrameType.Color:
+                    FrameDescription colorFrameDescription = this.kinectSensor.ColorFrameSource.FrameDescription;
+                    this.CurrentFrameDescription = colorFrameDescription;
+                    // create the bitmap to display
+                    this.bitmap = new WriteableBitmap(colorFrameDescription.Width, colorFrameDescription.Height);
+                    break;
+
+                case DisplayFrameType.Depth: FrameDescription depthFrameDescription = this.kinectSensor.DepthFrameSource.FrameDescription;
+                    this.CurrentFrameDescription = depthFrameDescription;
+                    // allocate space to put the pixels being 
+                    // received and converted
+                    this.depthFrameData = new ushort[depthFrameDescription.Width * depthFrameDescription.Height];
+                    this.depthPixels = new byte[depthFrameDescription.Width * depthFrameDescription.Height * BytesPerPixel];
+                    this.bitmap = new WriteableBitmap(depthFrameDescription.Width, depthFrameDescription.Height);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private void Sensor_IsAvailableChanged(KinectSensor sender, IsAvailableChangedEventArgs args)
+        {
+            this.StatusText = this.kinectSensor.IsAvailable ? "Running" : "Not Available";
+        }
+
+        // The Reader_MultiSourceFrameArrived() method will extract these frames, to be used in other methods
         private void Reader_MultiSourceFrameArrived(MultiSourceFrameReader sender, MultiSourceFrameArrivedEventArgs e)
         {
             MultiSourceFrame multiSourceFrame = e.FrameReference.AcquireFrame();
@@ -153,94 +202,88 @@ namespace Kinect2Sample
             switch (currentDisplayFrameType)
             {
                 case DisplayFrameType.Infrared:
-                    using (InfraredFrame infraredFrame =
-                 multiSourceFrame.InfraredFrameReference.AcquireFrame())
+                    using (InfraredFrame infraredFrame = multiSourceFrame.InfraredFrameReference.AcquireFrame())
                     {
                         ShowInfraredFrame(infraredFrame);
                     }
                     break;
+
                 case DisplayFrameType.Color:
-                    using (ColorFrame colorFrame =
-                 multiSourceFrame.ColorFrameReference.AcquireFrame())
+                    using (ColorFrame colorFrame = multiSourceFrame.ColorFrameReference.AcquireFrame())
                     {
                         ShowColorFrame(colorFrame);
                     }
                     break;
-                default:
+
+                case DisplayFrameType.Depth:
+                    using (DepthFrame depthFrame = multiSourceFrame.DepthFrameReference.AcquireFrame())
+                    {
+                        ShowDepthFrame(depthFrame);
+                    }
+                    break;
+
+                        default:
                     break;
             }
         }
 
-        private void InfraredButton_Click(object sender, RoutedEventArgs e)
+        private void ShowDepthFrame(DepthFrame depthFrame)
         {
-            SetupCurrentDisplay(DisplayFrameType.Infrared);
-        }
+            bool depthFrameProcessed = false;
+            ushort minDepth = 0;
+            ushort maxDepth = 0;
 
-        private void ColorButton_Click(object sender, RoutedEventArgs e)
-        {
-            SetupCurrentDisplay(DisplayFrameType.Color);
-        }
-
-        // switch to change between color and depth image
-        private void SetupCurrentDisplay(DisplayFrameType newDisplayFrameType)
-        {
-            currentDisplayFrameType = newDisplayFrameType;
-            switch (currentDisplayFrameType)
+            if (depthFrame != null)
             {
-                case DisplayFrameType.Infrared:
-                    FrameDescription infraredFrameDescription = this.kinectSensor.InfraredFrameSource.FrameDescription;
-                    this.CurrentFrameDescription = infraredFrameDescription;
-                    // allocate space to put the pixels being 
-                    // received and converted
-                    this.infraredFrameData = new ushort[infraredFrameDescription.Width * infraredFrameDescription.Height];
-                    this.infraredPixels = new byte[infraredFrameDescription.Width * infraredFrameDescription.Height * BytesPerPixel];
-                    this.bitmap = new WriteableBitmap(infraredFrameDescription.Width, infraredFrameDescription.Height);
-                    break;
+                FrameDescription depthFrameDescription = depthFrame.FrameDescription;
 
-                case DisplayFrameType.Color:
-                    FrameDescription colorFrameDescription = this.kinectSensor.ColorFrameSource.FrameDescription;
-                    this.CurrentFrameDescription = colorFrameDescription;
-                    // create the bitmap to display
-                    this.bitmap = new WriteableBitmap(colorFrameDescription.Width, colorFrameDescription.Height);
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
-        private void Sensor_IsAvailableChanged(KinectSensor sender, IsAvailableChangedEventArgs args)
-        {
-            this.StatusText = this.kinectSensor.IsAvailable ? "Running" : "Not Available";
-        }
-
-        private void ShowInfraredFrame(InfraredFrame infraredFrame)
-        {
-            bool infraredFrameProcessed = false;
-
-            if (infraredFrame != null)
-            {
-                FrameDescription infraredFrameDescription =
-                infraredFrame.FrameDescription;
-
-                // verify data and write the new infrared frame data to the display bitmap
-                if (((infraredFrameDescription.Width * infraredFrameDescription.Height)
-                == this.infraredFrameData.Length) &&
-                    (infraredFrameDescription.Width == this.bitmap.PixelWidth) &&
-                (infraredFrameDescription.Height == this.bitmap.PixelHeight))
+                // verify data and write the new infrared frame data
+                // to the display bitmap
+                if (((depthFrameDescription.Width * depthFrameDescription.Height)
+                    == this.infraredFrameData.Length) &&
+                    (depthFrameDescription.Width == this.bitmap.PixelWidth) &&
+                    (depthFrameDescription.Height == this.bitmap.PixelHeight))
                 {
                     // Copy the pixel data from the image to a temporary array
-                    infraredFrame.CopyFrameDataToArray(this.infraredFrameData);
+                    depthFrame.CopyFrameDataToArray(this.depthFrameData);
 
-                    infraredFrameProcessed = true;
+                    minDepth = depthFrame.DepthMinReliableDistance;
+                    maxDepth = depthFrame.DepthMaxReliableDistance;
+
+                    depthFrameProcessed = true;
                 }
             }
 
             // we got a frame, convert and render
-            if (infraredFrameProcessed)
+            if (depthFrameProcessed)
             {
-                this.ConvertInfraredDataToPixels();
-                this.RenderPixelArray(this.infraredPixels);
+                ConvertDepthDataToPixels(minDepth, maxDepth);
+                RenderPixelArray(this.depthPixels);
+            }
+        }
+
+        // The intensity is a conversion of the actual depth, but on a scale of 0 to 255 so it fits in a byte, and therefore can be used as a color.
+        private void ConvertDepthDataToPixels(ushort minDepth, ushort maxDepth)
+        {
+            int colorPixelIndex = 0;
+            // Shape the depth to the range of a byte
+            int mapDepthToByte = maxDepth / 256;
+
+            for (int i = 0; i < this.depthFrameData.Length; ++i)
+            {
+                // Get the depth for this pixel
+                ushort depth = this.depthFrameData[i];
+
+                // To convert to a byte, we're mapping the depth value
+                // to the byte range.
+                // Values outside the reliable depth range are 
+                // mapped to 0 (black).
+                byte intensity = (byte)(depth >= minDepth && depth <= maxDepth ? (depth / mapDepthToByte) : 0);
+
+                this.depthPixels[colorPixelIndex++] = intensity; //Blue
+                this.depthPixels[colorPixelIndex++] = intensity; //Green
+                this.depthPixels[colorPixelIndex++] = intensity; //Red
+                this.depthPixels[colorPixelIndex++] = 255; //Alpha
             }
         }
 
@@ -282,6 +325,35 @@ namespace Kinect2Sample
             }
         }
 
+        private void ShowInfraredFrame(InfraredFrame infraredFrame)
+        {
+            bool infraredFrameProcessed = false;
+
+            if (infraredFrame != null)
+            {
+                FrameDescription infraredFrameDescription = infraredFrame.FrameDescription;
+
+                // verify data and write the new infrared frame data to the display bitmap
+                if (((infraredFrameDescription.Width * infraredFrameDescription.Height)
+                == this.infraredFrameData.Length) &&
+                    (infraredFrameDescription.Width == this.bitmap.PixelWidth) &&
+                (infraredFrameDescription.Height == this.bitmap.PixelHeight))
+                {
+                    // Copy the pixel data from the image to a temporary array
+                    infraredFrame.CopyFrameDataToArray(this.infraredFrameData);
+
+                    infraredFrameProcessed = true;
+                }
+            }
+
+            // we got a frame, convert and render
+            if (infraredFrameProcessed)
+            {
+                this.ConvertInfraredDataToPixels();
+                this.RenderPixelArray(this.infraredPixels);
+            }
+        }
+
         private void ConvertInfraredDataToPixels()
         {
             // Convert the infrared to RGB
@@ -317,6 +389,21 @@ namespace Kinect2Sample
             pixels.CopyTo(this.bitmap.PixelBuffer);
             this.bitmap.Invalidate();
             FrameDisplayImage.Source = this.bitmap;
+        }
+
+        private void InfraredButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetupCurrentDisplay(DisplayFrameType.Infrared);
+        }
+
+        private void ColorButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetupCurrentDisplay(DisplayFrameType.Color);
+        }
+
+        private void DepthButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetupCurrentDisplay(DisplayFrameType.Depth);
         }
 
     }
