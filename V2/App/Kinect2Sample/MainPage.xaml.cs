@@ -30,15 +30,8 @@ namespace Kinect2Sample
 
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
-        // Color frames
-        private const DisplayFrameType DEFAULT_DISPLAYFRAMETYPE = DisplayFrameType.Color;
-
-        private FrameDescription currentFrameDescription;
-        private DisplayFrameType currentDisplayFrameType;
-
-        // Switch between frames types
-        private MultiSourceFrameReader multiSourceFrameReader = null;
-        private CoordinateMapper coordinateMapper = null;
+        // IR frames will be the default displayed
+        private const DisplayFrameType DEFAULT_DISPLAYFRAMETYPE = DisplayFrameType.Infrared;
 
         /// <summary>
         /// The highest value that can be returned in the InfraredFrame.
@@ -84,6 +77,11 @@ namespace Kinect2Sample
         private KinectSensor kinectSensor = null;
         private string statusText = null;
         private WriteableBitmap bitmap = null;
+        private FrameDescription currentFrameDescription;
+        private DisplayFrameType currentDisplayFrameType;
+        // Switch between frames types
+        private MultiSourceFrameReader multiSourceFrameReader = null;
+        private CoordinateMapper coordinateMapper = null;
 
         //Infrared Frame 
         private ushort[] infraredFrameData = null;
@@ -163,12 +161,19 @@ namespace Kinect2Sample
             this.InitializeComponent();
         }
 
+        // Check if the Kinect sensor is available
+        private void Sensor_IsAvailableChanged(KinectSensor sender, IsAvailableChangedEventArgs args)
+        {
+            this.StatusText = this.kinectSensor.IsAvailable ? "Running" : "Not Available";
+        }
+
         // Switch to change between infrared, color and depth image, is called every time the current display changes
         private void SetupCurrentDisplay(DisplayFrameType newDisplayFrameType)
         {
             currentDisplayFrameType = newDisplayFrameType;
             // Frames used by more than one type are declared outside the switch
             FrameDescription colorFrameDescription = null;
+
             switch (currentDisplayFrameType)
             {
                 case DisplayFrameType.Infrared:
@@ -212,11 +217,6 @@ namespace Kinect2Sample
                 default:
                     break;
             }
-        }
-
-        private void Sensor_IsAvailableChanged(KinectSensor sender, IsAvailableChangedEventArgs args)
-        {
-            this.StatusText = this.kinectSensor.IsAvailable ? "Running" : "Not Available";
         }
 
         // The Reader_MultiSourceFrameArrived() method will extract these frames, to be used in other methods
@@ -333,7 +333,9 @@ namespace Kinect2Sample
         }
 
         // This method will be performing direct byte manipulation using fixed pointers.
-        unsafe private void ShowMappedBodyFrame(int depthWidth, int depthHeight, IBuffer bodyIndexFrameData, IBufferByteAccess bodyIndexByteAccess)
+        unsafe private void ShowMappedBodyFrame(int depthWidth, int depthHeight, 
+            IBuffer bodyIndexFrameData, 
+            IBufferByteAccess bodyIndexByteAccess)
         {
             bodyIndexByteAccess = (IBufferByteAccess)bodyIndexFrameData;
             byte* bodyIndexBytes = null;
