@@ -1,22 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 using WindowsPreview.Kinect;
 using System.ComponentModel;
 using Windows.Storage.Streams;
 using System.Runtime.InteropServices;
+using Windows.UI.Xaml.Media;
+using Windows.Foundation;
 
 namespace Kinect2Sample
 {
@@ -25,7 +17,8 @@ namespace Kinect2Sample
         Infrared,
         Color, 
         Depth,
-        BodyMask
+        BodyMask,
+        BodyJoints
     }
 
     public sealed partial class MainPage : Page, INotifyPropertyChanged
@@ -82,6 +75,8 @@ namespace Kinect2Sample
         // Switch between frames types
         private MultiSourceFrameReader multiSourceFrameReader = null;
         private CoordinateMapper coordinateMapper = null;
+        // This class draw the body of the user in the canvas
+        private BodiesManager bodiesManager = null;
 
         //Infrared Frame 
         private ushort[] infraredFrameData = null;
@@ -93,6 +88,9 @@ namespace Kinect2Sample
 
         //BodyMask Frames
         private DepthSpacePoint[] colorMappedToDepthPoints = null;
+
+        // Body joints are drawn here
+        private Canvas drawingCanvas;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -139,13 +137,14 @@ namespace Kinect2Sample
             // To setup the body 
             this.coordinateMapper = this.kinectSensor.CoordinateMapper;
 
-            // Open the source frame readers
+            // Open the source frame readers, this method is given by the library 
             this.multiSourceFrameReader = 
                 this.kinectSensor.OpenMultiSourceFrameReader (
                     FrameSourceTypes.Infrared 
                     | FrameSourceTypes.Color 
                     | FrameSourceTypes.Depth 
-                    | FrameSourceTypes.BodyIndex);
+                    | FrameSourceTypes.BodyIndex
+                    | FrameSourceTypes.Body);
 
             this.multiSourceFrameReader.MultiSourceFrameArrived += this.Reader_MultiSourceFrameArrived;
 
@@ -173,6 +172,15 @@ namespace Kinect2Sample
             currentDisplayFrameType = newDisplayFrameType;
             // Frames used by more than one type are declared outside the switch
             FrameDescription colorFrameDescription = null;
+            // reset the display methods
+            if (this.BodyJointsGrid != null)
+            {
+                this.BodyJointsGrid.Visibility = Visibility.Collapsed;
+            }
+            if (this.FrameDisplayImage != null)
+            {
+                this.FrameDisplayImage.Source = null;
+            }
 
             switch (currentDisplayFrameType)
             {
@@ -214,6 +222,27 @@ namespace Kinect2Sample
                         colorFrameDescription.Height);
                     break;
 
+                case DisplayFrameType.BodyJoints:
+                    // instantiate a new Canvas
+                    this.drawingCanvas = new Canvas();
+                    // set the clip rectangle to prevent 
+                    // rendering outside the canvas
+                    this.drawingCanvas.Clip = new RectangleGeometry();
+                    this.drawingCanvas.Clip.Rect = new Rect(0.0, 0.0,
+                         this.BodyJointsGrid.Width,
+                         this.BodyJointsGrid.Height);
+                    this.drawingCanvas.Width = this.BodyJointsGrid.Width;
+                    this.drawingCanvas.Height = this.BodyJointsGrid.Height;
+                    // reset the body joints grid
+                    this.BodyJointsGrid.Visibility = Visibility.Visible;
+                    this.BodyJointsGrid.Children.Clear();
+                    // add canvas to DisplayGrid
+                    this.BodyJointsGrid.Children.Add(this.drawingCanvas);
+                    bodiesManager = new BodiesManager(this.coordinateMapper,
+                          this.drawingCanvas,
+                         this.kinectSensor.BodyFrameSource.BodyCount);
+                    break;
+
                 default:
                     break;
             }
@@ -233,6 +262,7 @@ namespace Kinect2Sample
             DepthFrame depthFrame = null;
             ColorFrame colorFrame = null;
             InfraredFrame infraredFrame = null;
+            BodyFrame bodyFrame = null;
             BodyIndexFrame bodyIndexFrame = null;
             IBuffer depthFrameDataBuffer = null;
             IBuffer bodyIndexFrameData = null;
@@ -327,9 +357,21 @@ namespace Kinect2Sample
                     }
                     break;
 
+                case DisplayFrameType.BodyJoints:
+                    using (bodyFrame = multiSourceFrame.BodyFrameReference.AcquireFrame())
+                    {
+                        ShowBodyJoints(bodyFrame);
+                    }
+                    break;
+
                 default:
                     break;
             }
+        }
+
+        private void ShowBodyJoints(BodyFrame bodyFrame)
+        {
+
         }
 
         // This method will be performing direct byte manipulation using fixed pointers.
@@ -588,6 +630,12 @@ namespace Kinect2Sample
             SetupCurrentDisplay(DisplayFrameType.Depth);
         }
 
+        private void BodyJointsButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetupCurrentDisplay(DisplayFrameType.BodyJoints);
+        }
+
+        // This method is used to expose and manipulate the buffer behind the destination bitmap
         [Guid("905a0fef-bc53-11df-8c49-001e4fc686da"),
                  InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         interface IBufferByteAccess
