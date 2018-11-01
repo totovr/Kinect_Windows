@@ -1,14 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
 using WindowsPreview.Kinect;
 using System.ComponentModel;
 using Windows.Storage.Streams;
 using System.Runtime.InteropServices;
-using Windows.UI.Xaml.Media;
-using Windows.Foundation;
+using System.Diagnostics;
+using Windows.UI.Xaml.Shapes;
 
 namespace Kinect2Sample
 {
@@ -371,7 +381,18 @@ namespace Kinect2Sample
 
         private void ShowBodyJoints(BodyFrame bodyFrame)
         {
+            Body[] bodies = new Body[this.kinectSensor.BodyFrameSource.BodyCount];
+            bool dataReceived = false;
+            if (bodyFrame != null)
+            {
+                bodyFrame.GetAndRefreshBodyData(bodies);
+                dataReceived = true;
+            }
 
+            if (dataReceived)
+            {
+                this.bodiesManager.UpdateBodiesAndEdges(bodies);
+            }
         }
 
         // This method will be performing direct byte manipulation using fixed pointers.
