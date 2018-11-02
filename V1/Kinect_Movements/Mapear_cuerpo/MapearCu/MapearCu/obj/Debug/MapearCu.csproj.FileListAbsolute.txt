@@ -1,0 +1,16 @@
+c:\users\bsys\documents\visual studio 2017\Projects\MapearCu\MapearCu\bin\Debug\MapearCu.exe.config
+c:\users\bsys\documents\visual studio 2017\Projects\MapearCu\MapearCu\bin\Debug\MapearCu.exe
+c:\users\bsys\documents\visual studio 2017\Projects\MapearCu\MapearCu\bin\Debug\MapearCu.pdb
+c:\users\bsys\documents\visual studio 2017\Projects\MapearCu\MapearCu\bin\Debug\Microsoft.Kinect.dll
+c:\users\bsys\documents\visual studio 2017\Projects\MapearCu\MapearCu\bin\Debug\Microsoft.Kinect.xml
+c:\users\bsys\documents\visual studio 2017\Projects\MapearCu\MapearCu\obj\Debug\MapearCu.csprojResolveAssemblyReference.cache
+c:\users\bsys\documents\visual studio 2017\Projects\MapearCu\MapearCu\obj\Debug\MainWindow.g.cs
+c:\users\bsys\documents\visual studio 2017\Projects\MapearCu\MapearCu\obj\Debug\App.g.cs
+c:\users\bsys\documents\visual studio 2017\Projects\MapearCu\MapearCu\obj\Debug\MapearCu_MarkupCompile.cache
+c:\users\bsys\documents\visual studio 2017\Projects\MapearCu\MapearCu\obj\Debug\MapearCu_MarkupCompile.lref
+c:\users\bsys\documents\visual studio 2017\Projects\MapearCu\MapearCu\obj\Debug\MainWindow.baml
+c:\users\bsys\documents\visual studio 2017\Projects\MapearCu\MapearCu\obj\Debug\MapearCu.g.resources
+c:\users\bsys\documents\visual studio 2017\Projects\MapearCu\MapearCu\obj\Debug\MapearCu.Properties.Resources.resources
+c:\users\bsys\documents\visual studio 2017\Projects\MapearCu\MapearCu\obj\Debug\MapearCu.csproj.GenerateResource.Cache
+c:\users\bsys\documents\visual studio 2017\Projects\MapearCu\MapearCu\obj\Debug\MapearCu.exe
+c:\users\bsys\documents\visual studio 2017\Projects\MapearCu\MapearCu\obj\Debug\MapearCu.pdb
