@@ -28,50 +28,50 @@
     <AppXManifest Include="C:\Users\avega\Documents\Github\Kinect_Windows\V2\Tracking\Kinect2Sample\bin\x64\Debug\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-11-01T05:28:25.308</Modified>
+      <Modified>2018-11-02T11:55:55.059</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\avega\Documents\Github\Kinect_Windows\V2\Tracking\Kinect2Sample\bin\x64\Debug\Kinect2Sample.exe">
       <PackagePath>Kinect2Sample.exe</PackagePath>
-      <Modified>2018-11-01T08:33:12.293</Modified>
+      <Modified>2018-11-02T11:55:54.664</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\avega\Documents\Github\Kinect_Windows\V2\Tracking\Kinect2Sample\Assets\Logo.scale-100.png">
       <PackagePath>Assets\Logo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2015-03-16T06:29:13.000</Modified>
+      <Modified>2018-11-02T11:53:35.381</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\avega\Documents\Github\Kinect_Windows\V2\Tracking\Kinect2Sample\Assets\SmallLogo.scale-100.png">
       <PackagePath>Assets\SmallLogo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2015-03-16T06:29:13.000</Modified>
+      <Modified>2018-11-02T11:53:35.378</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\avega\Documents\Github\Kinect_Windows\V2\Tracking\Kinect2Sample\Assets\SplashScreen.scale-100.png">
       <PackagePath>Assets\SplashScreen.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2015-03-16T06:29:13.000</Modified>
+      <Modified>2018-11-02T11:53:35.380</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\avega\Documents\Github\Kinect_Windows\V2\Tracking\Kinect2Sample\Assets\StoreLogo.scale-100.png">
       <PackagePath>Assets\StoreLogo.scale-100.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2015-03-16T06:29:13.000</Modified>
+      <Modified>2018-11-02T11:53:35.380</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\avega\Documents\Github\Kinect_Windows\V2\Tracking\Kinect2Sample\bin\x64\Debug\Kinect2Sample.xr.xml">
       <PackagePath>Kinect2Sample.xr.xml</PackagePath>
-      <Modified>2018-11-01T06:40:00.862</Modified>
+      <Modified>2018-11-02T11:53:35.387</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\avega\Documents\Github\Kinect_Windows\V2\Tracking\Kinect2Sample\bin\x64\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
-      <Modified>2018-10-23T00:21:27.240</Modified>
+      <Modified>2018-11-02T11:55:54.617</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\avega\Documents\Github\Kinect_Windows\V2\Tracking\Kinect2Sample\bin\x64\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
-      <Modified>2018-11-01T06:40:00.888</Modified>
+      <Modified>2018-11-02T11:55:54.617</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\avega\Documents\Github\Kinect_Windows\V2\Tracking\Kinect2Sample\bin\x64\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-11-01T05:28:25.212</Modified>
+      <Modified>2018-11-02T11:55:54.965</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>
