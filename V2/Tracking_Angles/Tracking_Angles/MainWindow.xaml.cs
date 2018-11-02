@@ -21,11 +21,16 @@ namespace Tracking_Angles
     {
         #region Members 
 
+        // Default mode 
         Mode _mode = Mode.Color;
 
+        // Create and object of the Kinect class
         KinectSensor _sensor;
+        // Create and object to read the incoming frames
         MultiSourceFrameReader _reader;
-        
+        // Create a list to save the ID of the tracked bodys
+        IList<Body> _bodies;
+
         #endregion
 
         #region Constructor
@@ -39,6 +44,7 @@ namespace Tracking_Angles
 
         #region Event handlers
 
+        // This window will be always updating in the .xaml 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _sensor = KinectSensor.GetDefault();
@@ -47,9 +53,10 @@ namespace Tracking_Angles
             {
                 _sensor.Open();
                 // Read the streams
-                _reader = _sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color |
-                                                             FrameSourceTypes.Depth |
-                                                             FrameSourceTypes.Infrared);
+                _reader = _sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color 
+                                                            | FrameSourceTypes.Depth
+                                                            | FrameSourceTypes.Infrared
+                                                            | FrameSourceTypes.Body);
                 _reader.MultiSourceFrameArrived += Reader_MultiSourceFrameArrived;
             }
 
@@ -91,6 +98,32 @@ namespace Tracking_Angles
                     if (_mode == Mode.Infrared)
                     {
                         camera.Source = frame.ToBitmap();
+                    }
+                }
+            }
+
+            // Body joints
+            using (var frame = reference.BodyFrameReference.AcquireFrame())
+            {
+                if (frame != null)
+                {
+                    _bodies = new Body[frame.BodyFrameSource.BodyCount];
+
+                    frame.GetAndRefreshBodyData(_bodies);
+
+                    foreach (var body in _bodies)
+                    {
+                        if (body != null)
+                        {
+                            if (body.IsTracked)
+                            {
+                                // Draw skeleton.
+                                if (_mode == Mode.Body_Joints)
+                                {
+                                    canvas.DrawSkeleton(body);
+                                }
+                            }
+                        }
                     }
                 }
             }
