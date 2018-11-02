@@ -3,6 +3,7 @@ using System.Windows.Media;
 using System.Collections.Generic;
 // Kinect dll
 using Microsoft.Kinect;
+using System;
 
 namespace Tracking_Angles
 {
@@ -11,7 +12,6 @@ namespace Tracking_Angles
         Color,
         Depth,
         Infrared,
-        Body_Joints
     }
 
     /// <summary>
@@ -30,6 +30,8 @@ namespace Tracking_Angles
         MultiSourceFrameReader _reader;
         // Create a list to save the ID of the tracked bodys
         IList<Body> _bodies;
+
+        bool _displayBody = false;
 
         #endregion
 
@@ -60,6 +62,14 @@ namespace Tracking_Angles
                 _reader.MultiSourceFrameArrived += Reader_MultiSourceFrameArrived;
             }
 
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            if (_sensor != null)
+            {
+                _sensor.Close();
+            }
         }
 
         void Reader_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
@@ -107,6 +117,8 @@ namespace Tracking_Angles
             {
                 if (frame != null)
                 {
+                    canvas.Children.Clear();
+
                     _bodies = new Body[frame.BodyFrameSource.BodyCount];
 
                     frame.GetAndRefreshBodyData(_bodies);
@@ -118,7 +130,7 @@ namespace Tracking_Angles
                             if (body.IsTracked)
                             {
                                 // Draw skeleton.
-                                if (_mode == Mode.Body_Joints)
+                                if (_displayBody)
                                 {
                                     canvas.DrawSkeleton(body);
                                 }
@@ -146,7 +158,7 @@ namespace Tracking_Angles
 
         private void Tracking_Click(object sender, RoutedEventArgs e)
         {
-            _mode = Mode.Body_Joints;
+            _displayBody = !_displayBody;
         }
 
         #endregion
