@@ -1,0 +1,16 @@
+C:\Users\avega\Downloads\kinect-2-coordinate-mapping-master\KinectCoordinateMapping\KinectCoordinateMapping\bin\Debug\KinectCoordinateMapping.exe.config
+C:\Users\avega\Downloads\kinect-2-coordinate-mapping-master\KinectCoordinateMapping\KinectCoordinateMapping\bin\Debug\KinectCoordinateMapping.exe
+C:\Users\avega\Downloads\kinect-2-coordinate-mapping-master\KinectCoordinateMapping\KinectCoordinateMapping\bin\Debug\KinectCoordinateMapping.pdb
+C:\Users\avega\Downloads\kinect-2-coordinate-mapping-master\KinectCoordinateMapping\KinectCoordinateMapping\bin\Debug\Microsoft.Kinect.dll
+C:\Users\avega\Downloads\kinect-2-coordinate-mapping-master\KinectCoordinateMapping\KinectCoordinateMapping\bin\Debug\Microsoft.Kinect.xml
+C:\Users\avega\Downloads\kinect-2-coordinate-mapping-master\KinectCoordinateMapping\KinectCoordinateMapping\obj\Debug\KinectCoordinateMapping.csprojResolveAssemblyReference.cache
+C:\Users\avega\Downloads\kinect-2-coordinate-mapping-master\KinectCoordinateMapping\KinectCoordinateMapping\obj\Debug\MainWindow.baml
+C:\Users\avega\Downloads\kinect-2-coordinate-mapping-master\KinectCoordinateMapping\KinectCoordinateMapping\obj\Debug\MainWindow.g.cs
+C:\Users\avega\Downloads\kinect-2-coordinate-mapping-master\KinectCoordinateMapping\KinectCoordinateMapping\obj\Debug\App.g.cs
+C:\Users\avega\Downloads\kinect-2-coordinate-mapping-master\KinectCoordinateMapping\KinectCoordinateMapping\obj\Debug\KinectCoordinateMapping_MarkupCompile.cache
+C:\Users\avega\Downloads\kinect-2-coordinate-mapping-master\KinectCoordinateMapping\KinectCoordinateMapping\obj\Debug\KinectCoordinateMapping.g.resources
+C:\Users\avega\Downloads\kinect-2-coordinate-mapping-master\KinectCoordinateMapping\KinectCoordinateMapping\obj\Debug\KinectCoordinateMapping.Properties.Resources.resources
+C:\Users\avega\Downloads\kinect-2-coordinate-mapping-master\KinectCoordinateMapping\KinectCoordinateMapping\obj\Debug\KinectCoordinateMapping.csproj.GenerateResource.Cache
+C:\Users\avega\Downloads\kinect-2-coordinate-mapping-master\KinectCoordinateMapping\KinectCoordinateMapping\obj\Debug\KinectCoordinateMapping.exe
+C:\Users\avega\Downloads\kinect-2-coordinate-mapping-master\KinectCoordinateMapping\KinectCoordinateMapping\obj\Debug\KinectCoordinateMapping.pdb
+C:\Users\avega\Downloads\kinect-2-coordinate-mapping-master\KinectCoordinateMapping\KinectCoordinateMapping\obj\Debug\App.baml
