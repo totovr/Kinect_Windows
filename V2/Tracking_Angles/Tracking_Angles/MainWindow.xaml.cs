@@ -4,6 +4,8 @@ using System.Collections.Generic;
 // Kinect dll
 using Microsoft.Kinect;
 using System;
+using System.Windows.Shapes;
+using System.Windows.Controls;
 
 namespace Tracking_Angles
 {
@@ -11,7 +13,7 @@ namespace Tracking_Angles
     {
         Color,
         Depth,
-        Infrared,
+        Infrared
     }
 
     /// <summary>
@@ -22,7 +24,7 @@ namespace Tracking_Angles
         #region Members 
 
         // Default mode 
-        Mode _mode = Mode.Color;
+        public Mode _mode = Mode.Color;
 
         // Create and object of the Kinect class
         KinectSensor _sensor;
@@ -55,7 +57,7 @@ namespace Tracking_Angles
             {
                 _sensor.Open();
                 // Read the streams
-                _reader = _sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color 
+                _reader = _sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color
                                                             | FrameSourceTypes.Depth
                                                             | FrameSourceTypes.Infrared
                                                             | FrameSourceTypes.Body);
@@ -88,29 +90,29 @@ namespace Tracking_Angles
                 }
             }
 
-            // Depth
-            using (var frame = reference.DepthFrameReference.AcquireFrame())
-            {
-                if (frame != null)
-                {
-                    if (_mode == Mode.Depth)
-                    {
-                        camera.Source = frame.ToBitmap();
-                    }
-                }
-            }
+            //// Depth
+            //using (var frame = reference.DepthFrameReference.AcquireFrame())
+            //{
+            //    if (frame != null)
+            //    {
+            //        if (_mode == Mode.Depth)
+            //        {
+            //            camera.Source = frame.ToBitmap();
+            //        }
+            //    }
+            //}
 
-            // Infrared
-            using (var frame = reference.InfraredFrameReference.AcquireFrame())
-            {
-                if (frame != null)
-                {
-                    if (_mode == Mode.Infrared)
-                    {
-                        camera.Source = frame.ToBitmap();
-                    }
-                }
-            }
+            //// Infrared
+            //using (var frame = reference.InfraredFrameReference.AcquireFrame())
+            //{
+            //    if (frame != null)
+            //    {
+            //        if (_mode == Mode.Infrared)
+            //        {
+            //            camera.Source = frame.ToBitmap();
+            //        }
+            //    }
+            //}
 
             // Body joints
             using (var frame = reference.BodyFrameReference.AcquireFrame())
@@ -132,7 +134,49 @@ namespace Tracking_Angles
                                 // Draw skeleton.
                                 if (_displayBody)
                                 {
-                                    canvas.DrawSkeleton(body);
+                                    //canvas.DrawSkeleton(body);
+
+                                    // COORDINATE MAPPING
+                                    foreach (Joint joint in body.Joints.Values)
+                                    {
+                                        if (joint.TrackingState == TrackingState.Tracked)
+                                        {
+                                            // 3D space point
+                                            // pack the X Y Z values
+                                            CameraSpacePoint jointPosition = joint.Position;
+
+                                            // 2D space point 
+                                            Point point = new Point();
+
+                                            if (_mode == Mode.Color)
+                                            {
+                                                ColorSpacePoint colorPoint = _sensor.CoordinateMapper.MapCameraPointToColorSpace(jointPosition);
+
+                                                point.X = float.IsInfinity(colorPoint.X) ? 0 : colorPoint.X;
+                                                point.Y = float.IsInfinity(colorPoint.Y) ? 0 : colorPoint.Y;
+                                            } // Necessary to reviw this to adjust the mapping in the depth or rgb mode
+                                            else if (_mode == Mode.Depth || _mode == Mode.Infrared) // Change the Image and Canvas dimensions to 512x424
+                                            {
+                                                DepthSpacePoint depthPoint = _sensor.CoordinateMapper.MapCameraPointToDepthSpace(jointPosition);
+
+                                                point.X = float.IsInfinity(depthPoint.X) ? 0 : depthPoint.X;
+                                                point.Y = float.IsInfinity(depthPoint.Y) ? 0 : depthPoint.Y;
+                                            }
+
+                                            // Draw
+                                            Ellipse ellipse = new Ellipse
+                                            {
+                                                Fill = Brushes.Red,
+                                                Width = 30,
+                                                Height = 30
+                                            };
+
+                                            Canvas.SetLeft(ellipse, point.X - ellipse.Width / 2);
+                                            Canvas.SetTop(ellipse, point.Y - ellipse.Height / 2);
+
+                                            canvas.Children.Add(ellipse);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -141,20 +185,20 @@ namespace Tracking_Angles
             }
         }
 
-        private void Color_Click(object sender, RoutedEventArgs e)
-        {
-            _mode = Mode.Color;
-        }
+        //private void Color_Click(object sender, RoutedEventArgs e)
+        //{
+        //    _mode = Mode.Color;
+        //}
 
-        private void Depth_Click(object sender, RoutedEventArgs e)
-        {
-            _mode = Mode.Depth;
-        }
+        //private void Depth_Click(object sender, RoutedEventArgs e)
+        //{
+        //    _mode = Mode.Depth;
+        //}
 
-        private void Infrared_Click(object sender, RoutedEventArgs e)
-        {
-            _mode = Mode.Infrared;
-        }
+        //private void Infrared_Click(object sender, RoutedEventArgs e)
+        //{
+        //    _mode = Mode.Infrared;
+        //}
 
         private void Tracking_Click(object sender, RoutedEventArgs e)
         {
