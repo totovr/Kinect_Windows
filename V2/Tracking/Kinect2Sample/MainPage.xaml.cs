@@ -1,24 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 using WindowsPreview.Kinect;
 using System.ComponentModel;
 using Windows.Storage.Streams;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
-using Windows.UI.Xaml.Shapes;
 
 namespace Kinect2Sample
 {
@@ -262,6 +252,8 @@ namespace Kinect2Sample
         private void Reader_MultiSourceFrameArrived(MultiSourceFrameReader sender, MultiSourceFrameArrivedEventArgs e)
         {
             MultiSourceFrame multiSourceFrame = e.FrameReference.AcquireFrame();
+            // Variable used for angles
+            var reference = e.FrameReference.AcquireFrame();
 
             // If the Frame has expired by the time we process this event, return.
             if (multiSourceFrame == null)
@@ -392,6 +384,7 @@ namespace Kinect2Sample
             if (dataReceived)
             {
                 this.bodiesManager.UpdateBodiesAndEdges(bodies);
+
             }
         }
 
@@ -663,5 +656,6 @@ namespace Kinect2Sample
         {
             unsafe void Buffer(out byte* pByte);
         }
+
     }
 }

@@ -1,0 +1,33 @@
+c:\users\bsys\documents\visual studio 2017\Projects\DetectandoEsqueletosII\DetectandoEsqueletosII\bin\Debug\DetectandoEsqueletosII.exe.config
+c:\users\bsys\documents\visual studio 2017\Projects\DetectandoEsqueletosII\DetectandoEsqueletosII\bin\Debug\DetectandoEsqueletosII.exe
+c:\users\bsys\documents\visual studio 2017\Projects\DetectandoEsqueletosII\DetectandoEsqueletosII\bin\Debug\DetectandoEsqueletosII.pdb
+c:\users\bsys\documents\visual studio 2017\Projects\DetectandoEsqueletosII\DetectandoEsqueletosII\bin\Debug\Microsoft.Kinect.dll
+c:\users\bsys\documents\visual studio 2017\Projects\DetectandoEsqueletosII\DetectandoEsqueletosII\bin\Debug\Microsoft.Kinect.xml
+c:\users\bsys\documents\visual studio 2017\Projects\DetectandoEsqueletosII\DetectandoEsqueletosII\obj\Debug\DetectandoEsqueletosII.csprojResolveAssemblyReference.cache
+c:\users\bsys\documents\visual studio 2017\Projects\DetectandoEsqueletosII\DetectandoEsqueletosII\obj\Debug\MainWindow.g.cs
+c:\users\bsys\documents\visual studio 2017\Projects\DetectandoEsqueletosII\DetectandoEsqueletosII\obj\Debug\App.g.cs
+c:\users\bsys\documents\visual studio 2017\Projects\DetectandoEsqueletosII\DetectandoEsqueletosII\obj\Debug\DetectandoEsqueletosII_MarkupCompile.cache
+c:\users\bsys\documents\visual studio 2017\Projects\DetectandoEsqueletosII\DetectandoEsqueletosII\obj\Debug\DetectandoEsqueletosII_MarkupCompile.lref
+c:\users\bsys\documents\visual studio 2017\Projects\DetectandoEsqueletosII\DetectandoEsqueletosII\obj\Debug\MainWindow.baml
+c:\users\bsys\documents\visual studio 2017\Projects\DetectandoEsqueletosII\DetectandoEsqueletosII\obj\Debug\DetectandoEsqueletosII.g.resources
+c:\users\bsys\documents\visual studio 2017\Projects\DetectandoEsqueletosII\DetectandoEsqueletosII\obj\Debug\DetectandoEsqueletosII.Properties.Resources.resources
+c:\users\bsys\documents\visual studio 2017\Projects\DetectandoEsqueletosII\DetectandoEsqueletosII\obj\Debug\DetectandoEsqueletosII.csproj.GenerateResource.Cache
+c:\users\bsys\documents\visual studio 2017\Projects\DetectandoEsqueletosII\DetectandoEsqueletosII\obj\Debug\DetectandoEsqueletosII.exe
+c:\users\bsys\documents\visual studio 2017\Projects\DetectandoEsqueletosII\DetectandoEsqueletosII\obj\Debug\DetectandoEsqueletosII.pdb
+C:\Users\avega\Documents\Github\Kinect_Windows\Kinect_Movements\DetectandoEsqueletos_Joints\DetectandoEsqueletosII\bin\Debug\DetectandoEsqueletosII.exe.config
+C:\Users\avega\Documents\Github\Kinect_Windows\Kinect_Movements\DetectandoEsqueletos_Joints\DetectandoEsqueletosII\bin\Debug\DetectandoEsqueletosII.exe
+C:\Users\avega\Documents\Github\Kinect_Windows\Kinect_Movements\DetectandoEsqueletos_Joints\DetectandoEsqueletosII\bin\Debug\DetectandoEsqueletosII.pdb
+C:\Users\avega\Documents\Github\Kinect_Windows\Kinect_Movements\DetectandoEsqueletos_Joints\DetectandoEsqueletosII\bin\Debug\Microsoft.Kinect.xml
+C:\Users\avega\Documents\Github\Kinect_Windows\Kinect_Movements\DetectandoEsqueletos_Joints\DetectandoEsqueletosII\obj\Debug\DetectandoEsqueletosII.csprojAssemblyReference.cache
+C:\Users\avega\Documents\Github\Kinect_Windows\Kinect_Movements\DetectandoEsqueletos_Joints\DetectandoEsqueletosII\obj\Debug\MainWindow.g.cs
+C:\Users\avega\Documents\Github\Kinect_Windows\Kinect_Movements\DetectandoEsqueletos_Joints\DetectandoEsqueletosII\obj\Debug\App.g.cs
+C:\Users\avega\Documents\Github\Kinect_Windows\Kinect_Movements\DetectandoEsqueletos_Joints\DetectandoEsqueletosII\obj\Debug\DetectandoEsqueletosII_MarkupCompile.cache
+C:\Users\avega\Documents\Github\Kinect_Windows\Kinect_Movements\DetectandoEsqueletos_Joints\DetectandoEsqueletosII\obj\Debug\DetectandoEsqueletosII_MarkupCompile.lref
+C:\Users\avega\Documents\Github\Kinect_Windows\Kinect_Movements\DetectandoEsqueletos_Joints\DetectandoEsqueletosII\obj\Debug\MainWindow.baml
+C:\Users\avega\Documents\Github\Kinect_Windows\Kinect_Movements\DetectandoEsqueletos_Joints\DetectandoEsqueletosII\obj\Debug\DetectandoEsqueletosII.g.resources
+C:\Users\avega\Documents\Github\Kinect_Windows\Kinect_Movements\DetectandoEsqueletos_Joints\DetectandoEsqueletosII\obj\Debug\DetectandoEsqueletosII.Properties.Resources.resources
+C:\Users\avega\Documents\Github\Kinect_Windows\Kinect_Movements\DetectandoEsqueletos_Joints\DetectandoEsqueletosII\obj\Debug\DetectandoEsqueletosII.csproj.GenerateResource.cache
+C:\Users\avega\Documents\Github\Kinect_Windows\Kinect_Movements\DetectandoEsqueletos_Joints\DetectandoEsqueletosII\obj\Debug\DetectandoEsqueletosII.csproj.CoreCompileInputs.cache
+C:\Users\avega\Documents\Github\Kinect_Windows\Kinect_Movements\DetectandoEsqueletos_Joints\DetectandoEsqueletosII\obj\Debug\DetectandoEsqueletosII.csproj.CopyComplete
+C:\Users\avega\Documents\Github\Kinect_Windows\Kinect_Movements\DetectandoEsqueletos_Joints\DetectandoEsqueletosII\obj\Debug\DetectandoEsqueletosII.exe
+C:\Users\avega\Documents\Github\Kinect_Windows\Kinect_Movements\DetectandoEsqueletos_Joints\DetectandoEsqueletosII\obj\Debug\DetectandoEsqueletosII.pdb
